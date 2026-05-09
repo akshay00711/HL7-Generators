@@ -77,6 +77,16 @@ cd frontend
 npm run build
 ```
 
+Playwright E2E tests:
+
+```bash
+cd frontend
+npx playwright install chromium
+npm run test:e2e
+```
+
+Use `npm run test:e2e:headed` to see the browser while tests run, or `npm run test:e2e:ui` for Playwright's interactive UI.
+
 ## Local App Database
 
 The local SQLite database is created automatically at:

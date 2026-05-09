@@ -31,6 +31,8 @@ backend/
   tests/
     test_hl7.py
 frontend/
+  e2e/
+    hl7-workbench.spec.js # Playwright end-to-end tests
   public/
     sample-hl7-reference.html # Local website-import test page
   src/
@@ -63,6 +65,31 @@ npm run dev
 ```
 
 Open the React app at the URL printed by Vite, usually `http://localhost:5173`.
+
+## E2E Testing
+
+Playwright tests live in `frontend/e2e` and start the FastAPI and Vite servers automatically.
+
+Install the browser once:
+
+```bash
+cd frontend
+npx playwright install chromium
+```
+
+Run the E2E suite:
+
+```bash
+cd frontend
+npm run test:e2e
+```
+
+Useful variants:
+
+```bash
+npm run test:e2e:headed
+npm run test:e2e:ui
+```
 
 ## One Command Cleanup
 
