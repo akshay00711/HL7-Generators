@@ -32,6 +32,7 @@ def init_database() -> None:
             CREATE TABLE IF NOT EXISTS message_history (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 message_control_id TEXT,
+                custom_name TEXT,
                 report_type TEXT NOT NULL,
                 hl7_version TEXT NOT NULL,
                 reference_id INTEGER,
@@ -41,6 +42,7 @@ def init_database() -> None:
             )
             """
         )
+        _ensure_message_history_custom_name(connection)
         connection.execute(
             """
             CREATE TABLE IF NOT EXISTS mysql_database_presets (
@@ -169,6 +171,7 @@ def delete_imported_reference(reference_id: int) -> dict[str, Any] | None:
 def save_message_history(
     *,
     message_control_id: str,
+    custom_name: str | None,
     report_type: str,
     hl7_version: str,
     reference_id: int | None,
@@ -179,15 +182,15 @@ def save_message_history(
         cursor = connection.execute(
             """
             INSERT INTO message_history
-                (message_control_id, report_type, hl7_version, reference_id, message, created_at)
-            VALUES (?, ?, ?, ?, ?, ?)
+                (message_control_id, custom_name, report_type, hl7_version, reference_id, message, created_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
             """,
-            (message_control_id, report_type, hl7_version, reference_id, message, created_at),
+            (message_control_id, custom_name, report_type, hl7_version, reference_id, message, created_at),
         )
         history_id = cursor.lastrowid
         row = connection.execute(
             """
-            SELECT h.id, h.message_control_id, h.report_type, h.hl7_version, h.reference_id,
+            SELECT h.id, h.message_control_id, h.custom_name, h.report_type, h.hl7_version, h.reference_id,
                    r.name AS reference_name, h.message, h.created_at
             FROM message_history h
             LEFT JOIN reference_sources r ON r.id = h.reference_id
@@ -202,7 +205,7 @@ def list_message_history(limit: int = 20) -> list[dict[str, Any]]:
     with _connect() as connection:
         rows = connection.execute(
             """
-            SELECT h.id, h.message_control_id, h.report_type, h.hl7_version, h.reference_id,
+            SELECT h.id, h.message_control_id, h.custom_name, h.report_type, h.hl7_version, h.reference_id,
                    r.name AS reference_name, h.message, h.created_at
             FROM message_history h
             LEFT JOIN reference_sources r ON r.id = h.reference_id
@@ -359,6 +362,12 @@ def _ensure_mysql_password_columns(connection: sqlite3.Connection) -> None:
     columns = {row["name"] for row in connection.execute("PRAGMA table_info(mysql_database_presets)").fetchall()}
     if "saved_password" not in columns:
         connection.execute("ALTER TABLE mysql_database_presets ADD COLUMN saved_password TEXT")
+
+
+def _ensure_message_history_custom_name(connection: sqlite3.Connection) -> None:
+    columns = {row["name"] for row in connection.execute("PRAGMA table_info(message_history)").fetchall()}
+    if "custom_name" not in columns:
+        connection.execute("ALTER TABLE message_history ADD COLUMN custom_name TEXT")
 
 
 def _seed_references(connection: sqlite3.Connection) -> None:

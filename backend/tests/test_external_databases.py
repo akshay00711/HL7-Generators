@@ -116,11 +116,13 @@ def test_saved_generated_hl7_can_be_deleted(tmp_path, monkeypatch):
             "/api/history",
             json={
                 "message": "MSH|^~\\&|APP|FAC|EHR|HOSP|20260508120000||ORU^R01|MSG1|P|2.5.1\r",
+                "custom_name": "Nightly generated lab",
                 "report_type": "lab_result",
                 "hl7_version": "2.5.1",
             },
         )
         assert created.status_code == 200
+        assert created.json()["custom_name"] == "Nightly generated lab"
 
         delete_created = client.delete(f"/api/history/{created.json()['id']}")
         assert delete_created.status_code == 200

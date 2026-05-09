@@ -46,11 +46,11 @@ Use the `Generate HL7` panel to configure the message:
 - Click `Generate` to create a message.
 - After the generated HL7 appears, click `Save` to store it in `Saved Generated HL7`.
 
-The generated message appears in the `HL7 Message Inspector` panel. Generated HL7 is not saved automatically. The `Save` button appears only after you click `Generate`.
+The generated message becomes available in the `Validate` tab. Generated HL7 is not saved automatically. The `Save` button appears only after you click `Generate`.
 
 To load a previously generated message again:
 
-1. Go to `HL7 Message Inspector`.
+1. Go to the `Validate` tab.
 2. Open the `Generated HL7 Dropdown` in `Saved Generated HL7`.
 3. Choose a saved message.
 4. Click `Load to Validator`.

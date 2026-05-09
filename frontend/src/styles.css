@@ -12,6 +12,10 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
   min-width: 320px;
@@ -43,38 +47,44 @@ button:disabled {
 }
 
 .app-shell {
-  width: min(1480px, calc(100% - 32px));
+  width: min(1600px, calc(100% - 36px));
   margin: 0 auto;
-  padding: 26px 0 36px;
+  padding: 18px 0 34px;
 }
 
 .topbar {
   display: flex;
   justify-content: space-between;
-  gap: 20px;
+  gap: 18px;
   align-items: center;
-  margin-bottom: 14px;
-  padding: 20px;
+  margin-bottom: 18px;
+  padding: 16px 18px;
   background: #ffffff;
   border: 1px solid rgba(31, 41, 51, 0.08);
-  border-top: 5px solid #1d7f68;
+  border-left: 5px solid #2563eb;
   border-radius: 8px;
-  box-shadow: 0 18px 45px rgba(38, 52, 65, 0.09);
+  box-shadow: 0 16px 40px rgba(38, 52, 65, 0.08);
 }
 
 .topbar h1,
-.panel-heading h2 {
+.panel-heading h2,
+.workflow-card h2 {
   margin: 0;
   color: #16201c;
 }
 
 .topbar h1 {
-  font-size: 3.05rem;
-  line-height: 1;
+  font-size: clamp(1.75rem, 3vw, 2.35rem);
+  line-height: 1.05;
 }
 
 .panel-heading h2 {
   font-size: 1.15rem;
+}
+
+.workflow-card h2 {
+  font-size: 1.18rem;
+  line-height: 1.2;
 }
 
 .eyebrow {
@@ -130,32 +140,55 @@ button:disabled {
   box-shadow: 0 8px 18px rgba(38, 52, 65, 0.12);
 }
 
+.dashboard-layout {
+  display: grid;
+  grid-template-columns: 276px minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.workflow-sidebar {
+  position: sticky;
+  top: 14px;
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+}
+
+.workflow-card {
+  padding: 16px;
+  background: #ffffff;
+  border: 1px solid rgba(31, 41, 51, 0.1);
+  border-radius: 8px;
+  box-shadow: 0 16px 38px rgba(38, 52, 65, 0.08);
+}
+
 .overview-strip {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 12px;
-  margin-bottom: 20px;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin: 0;
 }
 
 .status-tile {
   display: grid;
-  grid-template-columns: 38px minmax(0, 1fr);
-  gap: 4px 10px;
+  grid-template-columns: 34px minmax(0, 1fr);
+  gap: 3px 10px;
   align-items: center;
-  min-height: 78px;
-  padding: 14px;
+  min-height: 66px;
+  padding: 12px;
   background: #ffffff;
   border: 1px solid rgba(31, 41, 51, 0.09);
   border-radius: 8px;
-  box-shadow: 0 14px 34px rgba(38, 52, 65, 0.08);
+  box-shadow: 0 12px 28px rgba(38, 52, 65, 0.07);
 }
 
 .status-tile > div {
   grid-row: span 2;
   display: grid;
   place-items: center;
-  width: 38px;
-  height: 38px;
+  width: 34px;
+  height: 34px;
   color: #ffffff;
   background: #2957a4;
   border-radius: 8px;
@@ -189,6 +222,45 @@ button:disabled {
   white-space: nowrap;
 }
 
+.quick-nav {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.quick-nav button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 38px;
+  color: #20352f;
+  background: #f8fbff;
+  border: 1px solid #dbe7f3;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 900;
+  white-space: nowrap;
+  transition:
+    transform 150ms ease,
+    box-shadow 150ms ease,
+    border-color 150ms ease;
+}
+
+.quick-nav button:hover {
+  transform: translateY(-1px);
+  border-color: #b8c9ef;
+  box-shadow: 0 8px 16px rgba(41, 87, 164, 0.12);
+}
+
+.quick-nav button.active {
+  color: #ffffff;
+  background: #2563eb;
+  border-color: #2563eb;
+  box-shadow: 0 10px 18px rgba(37, 99, 235, 0.18);
+}
+
 .error-banner,
 .section-error {
   display: flex;
@@ -219,9 +291,10 @@ button:disabled {
 
 .workspace-grid {
   display: grid;
-  grid-template-columns: minmax(360px, 0.78fr) minmax(360px, 0.78fr) minmax(500px, 1.08fr);
+  grid-template-columns: minmax(0, 1fr);
   gap: 20px;
   align-items: start;
+  min-width: 0;
 }
 
 .generator-panel,
@@ -238,12 +311,62 @@ button:disabled {
 }
 
 .reference-workbench-panel {
+  display: grid;
+  grid-template-columns: minmax(240px, 0.68fr) minmax(380px, 1.32fr);
+  grid-template-areas:
+    "heading heading"
+    "reference-block mysql";
+  gap: 14px;
+  align-items: start;
   padding: 18px;
 }
 
 .inspector-panel {
-  min-height: 820px;
+  min-height: 0;
   padding: 18px;
+}
+
+#generate-panel,
+#inspector-panel,
+#sources-panel {
+  scroll-margin-top: 18px;
+}
+
+.reference-workbench-panel > .panel-heading {
+  grid-area: heading;
+  grid-column: 1 / -1;
+}
+
+.reference-source-block {
+  grid-area: reference-block;
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+  align-content: start;
+}
+
+.reference-workbench-panel > .section-mysql {
+  grid-area: mysql;
+}
+
+.reference-workbench-panel > .form-section,
+.reference-source-block > .form-section {
+  margin-top: 0;
+}
+
+.reference-source-block > .section-reference,
+.reference-source-block > .section-website {
+  gap: 10px;
+  padding: 12px;
+}
+
+.reference-source-block > .section-reference .form-grid.two,
+.reference-source-block > .section-website .website-import {
+  grid-template-columns: 1fr;
+}
+
+.reference-source-block > .section-website .website-import .icon-button {
+  width: 100%;
 }
 
 .panel-heading {
@@ -266,30 +389,94 @@ button:disabled {
 .generator-actions {
   flex: 0 0 auto;
   flex-wrap: nowrap;
+  align-items: end;
 }
 
 .generator-actions .icon-button {
   white-space: nowrap;
 }
 
+.save-name-field {
+  width: 220px;
+  color: #536158;
+  text-align: left;
+}
+
+.save-name-field input {
+  min-height: 38px;
+  background: #ffffff;
+}
+
 .mysql-actions {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  display: flex;
   gap: 8px;
   align-items: center;
-  width: 100%;
+  justify-content: flex-start;
+  width: auto;
   min-width: 0;
 }
 
 .mysql-actions .icon-button {
-  width: 100%;
-  min-width: 0;
+  width: auto;
+  min-width: 112px;
+  min-height: 38px;
+  padding: 8px 12px;
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+
+.mysql-heading .mysql-actions {
+  justify-self: start;
+}
+
+.saved-database-actions {
+  display: flex;
+  grid-column: 1 / -1;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.saved-database-actions .icon-button {
+  width: auto;
+  min-width: 124px;
+}
+
+.save-password-toggle {
+  align-self: stretch;
+}
+
+.password-save-help {
+  align-self: center;
+}
+
+.saved-database-help {
+  grid-column: 1 / -1;
+}
+
+.mysql-run-query-button {
+  justify-self: start;
+  width: auto;
+  min-width: 154px;
   min-height: 40px;
-  padding: 8px 7px;
-  font-size: 0.78rem;
+}
+
+.mysql-import-button {
+  justify-self: start;
+  width: auto;
+  min-width: 132px;
+  min-height: 40px;
+}
+
+.mysql-actions .icon-button,
+.mysql-run-query-button,
+.mysql-import-button,
+.saved-database-actions .icon-button {
+  flex: 0 0 auto;
+}
+
+.mysql-actions .icon-button {
   line-height: 1.15;
   text-align: center;
-  white-space: normal;
   overflow-wrap: anywhere;
 }
 
@@ -727,8 +914,9 @@ textarea:focus {
 
 .mysql-heading {
   display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   gap: 10px;
-  align-items: start;
+  align-items: center;
   width: 100%;
   min-width: 0;
 }
@@ -753,30 +941,6 @@ textarea:focus {
   background: #ffffff;
   border: 1px solid #dbe5f6;
   border-radius: 8px;
-}
-
-.saved-database-actions {
-  display: grid;
-  grid-column: 1 / -1;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px;
-}
-
-.saved-database-actions .icon-button {
-  width: 100%;
-  min-width: 0;
-}
-
-.save-password-toggle {
-  align-self: stretch;
-}
-
-.password-save-help {
-  align-self: center;
-}
-
-.saved-database-help {
-  grid-column: 1 / -1;
 }
 
 .mysql-grid {
@@ -808,12 +972,6 @@ textarea:focus {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
   align-items: end;
-}
-
-.mysql-import-button {
-  width: 100%;
-  min-width: 0;
-  min-height: 40px;
 }
 
 .db-status {
@@ -973,7 +1131,7 @@ textarea:focus {
 }
 
 .message-box {
-  min-height: 260px;
+  min-height: 310px;
   padding: 14px;
   font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
   font-size: 0.84rem;
@@ -1011,7 +1169,7 @@ textarea:focus {
 
 .history-list {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 8px;
 }
 
@@ -1321,6 +1479,7 @@ textarea:focus {
 }
 
 :root:not([data-theme="dark"]) .topbar,
+:root:not([data-theme="dark"]) .workflow-card,
 :root:not([data-theme="dark"]) .status-tile,
 :root:not([data-theme="dark"]) .generator-panel,
 :root:not([data-theme="dark"]) .reference-workbench-panel,
@@ -1331,11 +1490,12 @@ textarea:focus {
 }
 
 :root:not([data-theme="dark"]) .topbar {
-  border-top-color: #38bdf8;
+  border-left-color: #38bdf8;
 }
 
 :root:not([data-theme="dark"]) .topbar h1,
 :root:not([data-theme="dark"]) .panel-heading h2,
+:root:not([data-theme="dark"]) .workflow-card h2,
 :root:not([data-theme="dark"]) .section-title,
 :root:not([data-theme="dark"]) .mysql-heading > div:first-child,
 :root:not([data-theme="dark"]) .history-heading > div,
@@ -1387,10 +1547,17 @@ textarea:focus {
 
 :root:not([data-theme="dark"]) .icon-button,
 :root:not([data-theme="dark"]) .icon-only,
-:root:not([data-theme="dark"]) .theme-toggle {
+:root:not([data-theme="dark"]) .theme-toggle,
+:root:not([data-theme="dark"]) .quick-nav button {
   color: #1d314d;
   background: #ffffff;
   border-color: #c9d8e8;
+}
+
+:root:not([data-theme="dark"]) .quick-nav button.active {
+  color: #ffffff;
+  background: #2563eb;
+  border-color: #2563eb;
 }
 
 :root:not([data-theme="dark"]) .icon-button.strong {
@@ -1552,7 +1719,12 @@ textarea:focus {
     #111827;
 }
 
+:root[data-theme="dark"] .workflow-card {
+  background: rgba(31, 41, 55, 0.9);
+}
+
 :root[data-theme="dark"] .topbar,
+:root[data-theme="dark"] .workflow-card,
 :root[data-theme="dark"] .status-tile,
 :root[data-theme="dark"] .generator-panel,
 :root[data-theme="dark"] .reference-workbench-panel,
@@ -1563,11 +1735,12 @@ textarea:focus {
 }
 
 :root[data-theme="dark"] .topbar {
-  border-top-color: #6b7280;
+  border-left-color: #6b7280;
 }
 
 :root[data-theme="dark"] .topbar h1,
 :root[data-theme="dark"] .panel-heading h2,
+:root[data-theme="dark"] .workflow-card h2,
 :root[data-theme="dark"] .section-title,
 :root[data-theme="dark"] .mysql-heading > div:first-child,
 :root[data-theme="dark"] .history-heading > div,
@@ -1666,10 +1839,17 @@ textarea:focus {
 
 :root[data-theme="dark"] .icon-button,
 :root[data-theme="dark"] .icon-only,
-:root[data-theme="dark"] .theme-toggle {
+:root[data-theme="dark"] .theme-toggle,
+:root[data-theme="dark"] .quick-nav button {
   color: #f9fafb;
   background: #374151;
   border-color: #6b7280;
+}
+
+:root[data-theme="dark"] .quick-nav button.active {
+  color: #ffffff;
+  background: #4b5563;
+  border-color: #9ca3af;
 }
 
 :root[data-theme="dark"] .icon-button.strong,
@@ -1804,27 +1984,38 @@ textarea:focus {
 }
 
 @media (max-width: 1320px) {
-  .workspace-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .dashboard-layout {
+    grid-template-columns: 250px minmax(0, 1fr);
+    gap: 16px;
   }
 
-  .inspector-panel {
-    grid-column: 1 / -1;
+  .workspace-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .reference-workbench-panel {
+    grid-template-columns: minmax(240px, 0.68fr) minmax(380px, 1.32fr);
+    grid-template-areas:
+      "heading heading"
+      "reference-block mysql";
   }
 }
 
 @media (max-width: 1120px) {
-  .workspace-grid {
+  .dashboard-layout {
     grid-template-columns: 1fr;
+  }
+
+  .workflow-sidebar {
+    position: static;
   }
 
   .overview-strip {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .inspector-panel {
-    grid-column: auto;
-    min-height: auto;
+  .quick-nav {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
@@ -1839,6 +2030,10 @@ textarea:focus {
   .mysql-heading {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .mysql-heading {
+    grid-template-columns: 1fr;
   }
 
   .topbar h1 {
@@ -1865,6 +2060,10 @@ textarea:focus {
     grid-template-columns: 1fr;
   }
 
+  .quick-nav {
+    grid-template-columns: 1fr;
+  }
+
   .form-grid.two,
   .form-grid.observation-grid,
   .mysql-grid,
@@ -1872,6 +2071,7 @@ textarea:focus {
   .saved-database-panel,
   .saved-database-actions,
   .website-import,
+  .reference-workbench-panel,
   .history-loader,
   .history-list,
   .summary-grid,
@@ -1879,6 +2079,13 @@ textarea:focus {
   .field-row,
   .segment-detail summary {
     grid-template-columns: 1fr;
+  }
+
+  .reference-workbench-panel {
+    grid-template-areas:
+      "heading"
+      "reference-block"
+      "mysql";
   }
 
   .action-row {
@@ -1891,9 +2098,23 @@ textarea:focus {
     width: 100%;
   }
 
+  .mysql-actions,
+  .saved-database-actions {
+    width: 100%;
+  }
+
+  .mysql-actions .icon-button,
+  .saved-database-actions .icon-button,
+  .mysql-run-query-button,
+  .mysql-import-button {
+    width: 100%;
+    min-width: 0;
+    justify-self: stretch;
+  }
+
   .generator-actions {
     flex-direction: row;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     justify-content: flex-start;
   }
 
@@ -1901,6 +2122,11 @@ textarea:focus {
     width: auto;
     flex: 1 1 0;
     min-width: 0;
+  }
+
+  .generator-actions .save-name-field {
+    flex: 1 1 100%;
+    width: 100%;
   }
 
   .generator-actions .save-generate-button {

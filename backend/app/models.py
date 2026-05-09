@@ -216,6 +216,7 @@ class MySQLSavedDatabaseItem(BaseModel):
 class MessageHistoryItem(BaseModel):
     id: int
     message_control_id: str | None = None
+    custom_name: str | None = None
     report_type: str
     hl7_version: str
     reference_id: int | None = None
@@ -226,6 +227,7 @@ class MessageHistoryItem(BaseModel):
 
 class MessageHistoryCreateRequest(BaseModel):
     message: str = Field(min_length=1)
+    custom_name: str | None = None
     report_type: ReportType
     hl7_version: SupportedVersion
     reference_id: int | None = None
