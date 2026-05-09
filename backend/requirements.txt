@@ -1,0 +1,5 @@
+fastapi
+httpx
+pymysql
+uvicorn[standard]
+pytest

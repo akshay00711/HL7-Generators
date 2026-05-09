@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Local Sample HL7 Reference Profile</title>
+  </head>
+  <body>
+    <main>
+      <h1>Local Sample HL7 Reference Profile</h1>
+      <p>
+        This local page is bundled with HL7 AI Workbench so website import can be tested without using
+        the public internet.
+      </p>
+
+      <section>
+        <h2>ORU R01 Lab Result Profile</h2>
+        <p>
+          ORU R01 messages should include MSH, PID, PV1, ORC, OBR, and one or more OBX segments.
+          OBX-2 carries the value type, OBX-3 carries the observation identifier, OBX-5 carries the
+          result value, OBX-6 carries units, OBX-7 carries reference range, OBX-8 carries abnormal flag,
+          and OBX-11 carries the result status.
+        </p>
+      </section>
+
+      <section>
+        <h2>ADT Visit Profile</h2>
+        <p>
+          ADT messages should include MSH, EVN, PID, and PV1. ADT A01 represents admission or registration.
+          ADT A03 represents discharge. PV1-2 carries patient class and PV1-19 carries the visit number.
+        </p>
+      </section>
+
+      <section>
+        <h2>Radiology Report Profile</h2>
+        <p>
+          Radiology ORU messages should use OBR for the study and OBX text values for the report narrative.
+          The report should preserve provider, order, patient, study description, and final status context.
+        </p>
+      </section>
+    </main>
+  </body>
+</html>
