@@ -13,6 +13,7 @@ A full-stack React and Python application for generating, parsing, and validatin
 - Saves generated-message history to the database only when the user enables the save option.
 
 For a screenshot-based walkthrough, see [docs/USER_GUIDE.md](docs/USER_GUIDE.md).
+For fresh clone setup and complete run commands, see [docs/CLONE_AND_RUN.md](docs/CLONE_AND_RUN.md).
 For a visual workflow diagram, see [docs/WORKFLOW_DIAGRAM.md](docs/WORKFLOW_DIAGRAM.md).
 For setup, cleanup, reset, and troubleshooting commands, see [docs/OPERATIONS.md](docs/OPERATIONS.md).
 For demo-ready sample data and UI block descriptions, see [docs/SAMPLE_DATA_AND_BLOCK_GUIDE.md](docs/SAMPLE_DATA_AND_BLOCK_GUIDE.md).
